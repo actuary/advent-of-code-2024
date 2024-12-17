@@ -22,6 +22,8 @@ pub fn part2(data: &str) -> u64 {
     result += muls(splits[0]);
 
     for group in splits.iter().skip(1) {
+        // first group is disabled, but every group after that is enabled by 
+        // the previous do()
         for enabled in group.split("do()").skip(1) {
             result += muls(enabled);
         }
