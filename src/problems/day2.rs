@@ -47,9 +47,14 @@ fn is_nearly_safe(report: &[i32]) -> bool {
     // first and last value must be ok, due to condition above.
     // so any error must be somewhere in the middle.
     // we want to know if it's increasing or decreasing now, and we want
-    // this to be consistent. 
-    // If it is nearly safe now, first and last are correct, and we 
-    // compare all ordering to these.
+    // this to be consistent. Either it's nearly safe or it's not.
+    //
+    // If it IS nearly safe now, first and last are correct, and we 
+    // compare all ordering to these (their order must be correct) and 
+    // count the unsafes.
+    //
+    // If it IS NOT nearly safe, then if we take any order e.g. first and last
+    // order, we'll get at least 2 unsafes.
     let order = report[0].cmp(report.last().unwrap());
 
     let mut unsafes = 0;
