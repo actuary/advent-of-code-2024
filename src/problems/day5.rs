@@ -68,15 +68,14 @@ pub fn part1(data: &str) -> i32 {
     result
 }
 
-
-fn visit(n: i32, graph: &HashMap<i32, Vec<i32>>, unmarked_nodes: &Vec<i32>, l: &mut Vec<i32>) { 
+fn visit(n: i32, graph: &HashMap<i32, Vec<i32>>, unmarked_nodes: &Vec<i32>, l: &mut Vec<i32>) {
     if l.contains(&n) {
-        return
+        return;
     }
 
     for &m in &graph[&n] {
         visit(m, &graph, unmarked_nodes, l);
-    };
+    }
 
     l.push(n);
 }
@@ -108,9 +107,8 @@ pub fn part2(data: &str) -> i32 {
     for update in broken_updates {
         // subset the graph so we only have the values we're concerned about
         let mut new_graph: HashMap<i32, Vec<i32>> = HashMap::new();
-        
-        for n in update {
 
+        for n in update {
             let all_reachable: HashSet<i32> = if !orderings.contains_key(&n) {
                 HashSet::new()
             } else {
@@ -120,7 +118,7 @@ pub fn part2(data: &str) -> i32 {
             let reachable: Vec<i32> = all_reachable.intersection(&all).map(|v| *v).collect();
             new_graph.insert(*n, reachable);
         }
-        
+
         let ordered = topologically_sort(&new_graph);
         result += ordered[ordered.len() / 2];
     }
