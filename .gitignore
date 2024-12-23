@@ -3,6 +3,7 @@
 debug/
 target/
 data/
+.idea
 
 .env
 
