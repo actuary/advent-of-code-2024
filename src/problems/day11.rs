@@ -8,7 +8,7 @@ fn parse(data: &str) -> HashMap<i64, i64> {
 }
 
 fn blink(stones: &mut HashMap<i64, i64>) {
-    // we can't borrow stones immutably and also borrow mutate, 
+    // we can't borrow stones immutably and also borrow mutate,
     // so we'll collect the hits, then apply to stones counts.
     let mut hits: HashMap<i64, i64> = HashMap::new();
 
@@ -20,7 +20,6 @@ fn blink(stones: &mut HashMap<i64, i64>) {
             // case 1:
             hits.insert(1, *hits.get(&1).unwrap_or(&0) + stone_count);
         } else {
-
             let number_of_digits = (stone).ilog10() + 1;
 
             if number_of_digits % 2 == 0 {
@@ -29,7 +28,10 @@ fn blink(stones: &mut HashMap<i64, i64>) {
                 hits.insert(top_half, *hits.get(&top_half).unwrap_or(&0) + stone_count);
 
                 let bottom_half = stone - (top_half * (10 as i64).pow(number_of_digits / 2));
-                hits.insert(bottom_half, *hits.get(&bottom_half).unwrap_or(&0) + stone_count);
+                hits.insert(
+                    bottom_half,
+                    *hits.get(&bottom_half).unwrap_or(&0) + stone_count,
+                );
             } else {
                 // case 3:
                 let new_value = stone * 2024;
@@ -91,7 +93,7 @@ mod tests {
 
     #[test]
     fn part2_works() {
-        let data = "";
-        assert_eq!(part2(data), 0);
+        let data = "125 17";
+        assert_eq!(part2(data), 65601038650482);
     }
 }
