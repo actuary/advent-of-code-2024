@@ -1,22 +1,20 @@
-use std::cmp::{max, min};
-
-fn parse(data: &str) -> (Vec<i32>, Vec<i32>) {
-    let lines: Vec<(i32, i32)> = data
+fn parse(data: &str) -> Vec<String> {
+    data
         .split("\n")
         .collect();
 }
 
-pub fn part1(data: &str) -> i32 {
+pub fn part1(data: &str) -> i64 {
     let x = parse(data);
     
-    let result: i32 = 0;
+    let result: i64 = x.len() as i64;
     result
 }
 
-pub fn part2(data: &str) -> i32 {
+pub fn part2(data: &str) -> i64 {
     let x = parse(data);
     
-    let result: i32 = 0;
+    let result: i64 = x.len() as i64;
     result
 }
 
