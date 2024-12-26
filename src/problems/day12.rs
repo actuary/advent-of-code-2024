@@ -1,76 +1,6 @@
-use std::{
-    collections::{HashMap, HashSet},
-    ops,
-    slice::Iter,
-};
+use std::collections::{HashMap, HashSet};
 
-#[derive(Debug, PartialEq, Eq)]
-enum Direction {
-    North,
-    East,
-    South,
-    West,
-}
-
-impl Direction {
-    pub fn iterator() -> Iter<'static, Direction> {
-        static DIRECTIONS: [Direction; 4] = [
-            Direction::North,
-            Direction::East,
-            Direction::South,
-            Direction::West,
-        ];
-        DIRECTIONS.iter()
-    }
-
-    pub fn advance_by(&self) -> Position {
-        match self {
-            Direction::North => Position { x: 0, y: 1 },
-            Direction::East => Position { x: 1, y: 0 },
-            Direction::South => Position { x: 0, y: -1 },
-            Direction::West => Position { x: -1, y: 0 },
-        }
-    }
-}
-
-#[derive(Debug, Hash, Eq, PartialEq, Copy, Clone, PartialOrd, Ord)]
-struct Position {
-    x: i64,
-    y: i64,
-}
-
-impl<'a, 'b> ops::Add<&'b Position> for &'a Position {
-    type Output = Position;
-
-    fn add(self, _rhs: &'b Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
-
-impl<'a> ops::Add<Position> for &'a Position {
-    type Output = Position;
-
-    fn add(self, _rhs: Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
-
-impl ops::Add<Position> for Position {
-    type Output = Position;
-
-    fn add(self, _rhs: Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
+use aoc2024::{Position, Direction};
 
 struct Map {
     tiles: Vec<Vec<char>>,
@@ -177,7 +107,9 @@ fn calculate_edges(
                     perimeter += 1;
                     let mut position = Position { x, y };
                     let mut to_check = position + direction.advance_by();
-                    while y <= max_p.y && region.contains(&position) && (!map.in_bounds(&to_check) || !region.contains(&to_check))
+                    while y <= max_p.y
+                        && region.contains(&position)
+                        && (!map.in_bounds(&to_check) || !region.contains(&to_check))
                     {
                         y += 1;
                         position = Position { x, y };
@@ -199,7 +131,9 @@ fn calculate_edges(
                 {
                     let mut position = Position { x, y };
                     let mut to_check = position + direction.advance_by();
-                    while x <= max_p.x && region.contains(&position) && (!map.in_bounds(&to_check) || !region.contains(&to_check))
+                    while x <= max_p.x
+                        && region.contains(&position)
+                        && (!map.in_bounds(&to_check) || !region.contains(&to_check))
                     {
                         x += 1;
                         position = Position { x, y };

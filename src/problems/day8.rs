@@ -1,50 +1,14 @@
 use std::{
-    cmp::min, collections::{HashMap, HashSet}, ops
+    cmp::min,
+    collections::{HashMap, HashSet},
 };
+
+use aoc2024::Position;
 
 struct Roof {
     width: u64,
     height: u64,
     antennae: HashMap<char, Vec<Position>>,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
-struct Position {
-    x: i64,
-    y: i64,
-}
-
-impl ops::Add<Position> for Position {
-    type Output = Position;
-
-    fn add(self, _rhs: Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
-
-impl ops::Sub<Position> for Position {
-    type Output = Position;
-
-    fn sub(self, _rhs: Position) -> Position {
-        Position {
-            x: self.x - _rhs.x,
-            y: self.y - _rhs.y,
-        }
-    }
-}
-
-impl ops::Mul<i64> for Position {
-    type Output = Position;
-
-    fn mul(self, _rhs: i64) -> Position {
-        Position {
-            x: self.x * _rhs,
-            y: self.y * _rhs,
-        }
-    }
 }
 
 fn parse(data: &str) -> Roof {
@@ -124,20 +88,35 @@ fn antinode_any(
     let mut forward: i64 = 0;
     let mut backward: i64 = 0;
     if step.x < 0 && step.y > 0 {
-        forward = min(antenna_i.x / -step.x, (width as i64 - 1 - antenna_i.y) / step.y);
-        backward = min((height as i64 - 1 - antenna_i.x) / -step.x, antenna_i.y / step.y);
-
+        forward = min(
+            antenna_i.x / -step.x,
+            (width as i64 - 1 - antenna_i.y) / step.y,
+        );
+        backward = min(
+            (height as i64 - 1 - antenna_i.x) / -step.x,
+            antenna_i.y / step.y,
+        );
     } else if step.x > 0 && step.y > 0 {
-        forward = min((height as i64 - 1 - antenna_i.x) / step.x, (width as i64 - 1 - antenna_i.y) / step.y);
+        forward = min(
+            (height as i64 - 1 - antenna_i.x) / step.x,
+            (width as i64 - 1 - antenna_i.y) / step.y,
+        );
         backward = min(antenna_i.x / step.x, antenna_i.y / step.y);
-
     } else if step.x < 0 && step.y < 0 {
         forward = min(antenna_i.x / -step.x, antenna_i.y / -step.y);
-        backward = min((height as i64 - 1 - antenna_i.x) / -step.x, (width as i64 - 1 - antenna_i.y) / -step.y);
-
+        backward = min(
+            (height as i64 - 1 - antenna_i.x) / -step.x,
+            (width as i64 - 1 - antenna_i.y) / -step.y,
+        );
     } else if step.x > 0 && step.y < 0 {
-        forward = min((height as i64 - 1 - antenna_i.x) / step.x, antenna_i.y / -step.y);
-        backward = min(antenna_i.x / step.x, (width as i64 - 1 - antenna_i.y) / -step.y);
+        forward = min(
+            (height as i64 - 1 - antenna_i.x) / step.x,
+            antenna_i.y / -step.y,
+        );
+        backward = min(
+            antenna_i.x / step.x,
+            (width as i64 - 1 - antenna_i.y) / -step.y,
+        );
     }
 
     assert!(forward >= 0);
@@ -157,7 +136,6 @@ fn antinode_any(
 
     antinodes
 }
-
 
 pub fn part1(data: &str) -> u64 {
     let roof = parse(data);
@@ -182,7 +160,6 @@ pub fn part1(data: &str) -> u64 {
                     }
                     None => (),
                 }
-
             }
         }
     }
@@ -198,7 +175,8 @@ pub fn part2(data: &str) -> u64 {
     for (_, v) in &roof.antennae {
         for (i, antenna_i) in v.iter().enumerate().take(v.len() - 1) {
             for antenna_j in v.iter().skip(i + 1) {
-                let antinodes_for_frequency = antinode_any(antenna_i, antenna_j, roof.width, roof.height);
+                let antinodes_for_frequency =
+                    antinode_any(antenna_i, antenna_j, roof.width, roof.height);
                 antinodes.extend(antinodes_for_frequency.iter());
             }
         }

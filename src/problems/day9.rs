@@ -1,5 +1,7 @@
 use std::collections::VecDeque;
 
+use aoc2024::triangular;
+
 #[derive(Copy, Clone, Debug)]
 enum Block {
     File(u8, u64),
@@ -22,15 +24,6 @@ fn parse(data: &str) -> VecDeque<Block> {
         });
 
     dequeue
-}
-
-fn triangular(start: u64, end: u64) -> u64 {
-    assert!(start <= end);
-    if start == 0 {
-        return end * (end + 1) / 2;
-    }
-
-    triangular(0, end) - triangular(0, start - 1)
 }
 
 fn checksum(filesystem: &VecDeque<Block>) -> u64 {
@@ -119,12 +112,16 @@ pub fn part2(data: &str) -> u64 {
         .unwrap();
 
     for disk_id in (0..=last_file_id).rev() {
-        let pos: usize = filesystem.iter().enumerate().filter(|(_, &block)| {
-            match block {
+        let pos: usize = filesystem
+            .iter()
+            .enumerate()
+            .filter(|(_, &block)| match block {
                 Block::File(_, id) => id == disk_id,
-                _ => false
-            }
-        }).next().unwrap().0;
+                _ => false,
+            })
+            .next()
+            .unwrap()
+            .0;
 
         let block = filesystem.remove(pos).unwrap();
         let mut moved: bool = false;
@@ -162,7 +159,7 @@ pub fn part2(data: &str) -> u64 {
                 if !moved {
                     filesystem.insert(pos, block);
                 }
-            },
+            }
             Block::Free(_) => {
                 panic!("Should never happen");
             }

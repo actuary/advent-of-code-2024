@@ -1,17 +1,12 @@
 use std::collections::HashSet;
 
+use aoc2024::Direction;
+
 fn parse(data: &str) -> Vec<Vec<char>> {
-    data.trim().split("\n")
+    data.trim()
+        .split("\n")
         .map(|line| line.chars().collect())
         .collect()
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Clone)]
-enum Direction {
-    North,
-    East,
-    South,
-    West,
 }
 
 enum TraverseResult {
@@ -24,36 +19,6 @@ struct Guard {
     x: i32,
     y: i32,
     direction: Direction,
-}
-
-impl Direction {
-    pub fn from(c: char) -> Result<Direction, ()> {
-        match c {
-            '^' => Ok(Direction::North),
-            '>' => Ok(Direction::East),
-            'v' => Ok(Direction::South),
-            '<' => Ok(Direction::West),
-            _ => Err(()),
-        }
-    }
-
-    pub fn advance(&self) -> (i32, i32) {
-        match self {
-            Self::North => (-1, 0),
-            Self::East => (0, 1),
-            Self::South => (1, 0),
-            Self::West => (0, -1),
-        }
-    }
-
-    pub fn turn(&self) -> Self {
-        match *self {
-            Self::North => Self::East,
-            Self::East => Self::South,
-            Self::South => Self::West,
-            Self::West => Self::North,
-        }
-    }
 }
 
 fn inbounds(x: i32, y: i32, width: i32, height: i32) -> bool {
@@ -144,7 +109,7 @@ pub fn part1(data: &str) -> u32 {
 pub fn part2(data: &str) -> u32 {
     // basically brute force with a small improvement - we only check the initial
     // visited path...
-    // 
+    //
     let mut map = parse(data);
     let guard = get_guard(&map).unwrap();
 

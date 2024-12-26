@@ -1,4 +1,4 @@
-use std::ops::{Add, Mul};
+use aoc2024::{Move, Position};
 
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
 enum Tile {
@@ -8,75 +8,6 @@ enum Tile {
     Wall = 3,
     BoxLeft = 4,
     BoxRight = 5,
-}
-
-#[derive(PartialEq, Eq, Debug, Copy, Clone)]
-enum Move {
-    Up = 0,
-    Down = 1,
-    Left = 2,
-    Right = 3,
-}
-
-#[derive(Debug, Hash, Eq, PartialEq, Copy, Clone, PartialOrd, Ord)]
-struct Position {
-    x: i64,
-    y: i64,
-}
-
-impl Mul<i64> for Position {
-    type Output = Position;
-
-    fn mul(self, _rhs: i64) -> Position {
-        Position {
-            x: self.x * _rhs,
-            y: self.y * _rhs,
-        }
-    }
-}
-
-impl Mul<&Position> for i64 {
-    type Output = Position;
-
-    fn mul(self, _rhs: &Position) -> Position {
-        Position {
-            x: _rhs.x * self,
-            y: _rhs.y * self,
-        }
-    }
-}
-
-impl<'a, 'b> Add<&'b Position> for &'a Position {
-    type Output = Position;
-
-    fn add(self, _rhs: &'b Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
-
-impl<'a> Add<Position> for &'a Position {
-    type Output = Position;
-
-    fn add(self, _rhs: Position) -> Position {
-        Position {
-            x: self.x + _rhs.x,
-            y: self.y + _rhs.y,
-        }
-    }
-}
-
-impl Move {
-    pub fn advance_by(&self) -> Position {
-        match self {
-            Move::Up => Position { x: -1, y: 0 },
-            Move::Right => Position { x: 0, y: 1 },
-            Move::Down => Position { x: 1, y: 0 },
-            Move::Left => Position { x: 0, y: -1 },
-        }
-    }
 }
 
 struct Game {

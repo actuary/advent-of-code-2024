@@ -1,21 +1,6 @@
 use regex::Regex;
 
-#[derive(Debug, Hash, Eq, PartialEq, Copy, Clone, PartialOrd, Ord)]
-struct Position {
-    x: i64,
-    y: i64,
-}
-
-fn gcd(a: i64, b: i64) -> i64 {
-    match (a, b) {
-        (d, 0) => d,
-        (c, d) => gcd(d, c % d),
-    }
-}
-
-fn lcm(a: i64, b: i64) -> i64 {
-    (a * b).abs() / gcd(a, b)
-}
+use aoc2024::{Position, lcm};
 
 #[derive(Debug)]
 struct ClawMachine {
