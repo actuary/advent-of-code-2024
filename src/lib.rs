@@ -1,6 +1,6 @@
 use std::{
-    ops::{Add, Mul, Rem, Sub},
-    slice::Iter,
+    ops,
+    slice
 };
 
 #[derive(Debug, Hash, Eq, PartialEq, Copy, Clone, PartialOrd, Ord)]
@@ -20,7 +20,7 @@ pub fn lcm(a: i64, b: i64) -> i64 {
     (a * b).abs() / gcd(a, b)
 }
 
-impl Mul<i64> for Position {
+impl ops::Mul<i64> for Position {
     type Output = Position;
 
     fn mul(self, _rhs: i64) -> Position {
@@ -31,7 +31,7 @@ impl Mul<i64> for Position {
     }
 }
 
-impl Mul<&Position> for i64 {
+impl ops::Mul<&Position> for i64 {
     type Output = Position;
 
     fn mul(self, _rhs: &Position) -> Position {
@@ -42,7 +42,7 @@ impl Mul<&Position> for i64 {
     }
 }
 
-impl<'a, 'b> Add<&'b Position> for &'a Position {
+impl<'a, 'b> ops::Add<&'b Position> for &'a Position {
     type Output = Position;
 
     fn add(self, _rhs: &'b Position) -> Position {
@@ -53,7 +53,7 @@ impl<'a, 'b> Add<&'b Position> for &'a Position {
     }
 }
 
-impl<'a> Add<Position> for &'a Position {
+impl<'a> ops::Add<Position> for &'a Position {
     type Output = Position;
 
     fn add(self, _rhs: Position) -> Position {
@@ -64,7 +64,7 @@ impl<'a> Add<Position> for &'a Position {
     }
 }
 
-impl Add<Position> for Position {
+impl ops::Add<Position> for Position {
     type Output = Position;
 
     fn add(self, _rhs: Position) -> Position {
@@ -75,7 +75,7 @@ impl Add<Position> for Position {
     }
 }
 
-impl Mul<Position> for i64 {
+impl ops::Mul<Position> for i64 {
     type Output = Position;
 
     fn mul(self, _rhs: Position) -> Position {
@@ -86,7 +86,7 @@ impl Mul<Position> for i64 {
     }
 }
 
-impl Rem<&Position> for Position {
+impl ops::Rem<&Position> for Position {
     type Output = Position;
 
     fn rem(self, _rhs: &Position) -> Position {
@@ -96,7 +96,7 @@ impl Rem<&Position> for Position {
         }
     }
 }
-impl Sub<Position> for Position {
+impl ops::Sub<Position> for Position {
     type Output = Position;
 
     fn sub(self, _rhs: Position) -> Position {
@@ -126,12 +126,12 @@ impl Move {
     }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Hash)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash, PartialOrd)]
 pub enum Direction {
-    North,
-    East,
-    South,
-    West,
+    North = 0,
+    East = 1,
+    South = 2,
+    West = 3,
 }
 
 
@@ -164,7 +164,7 @@ impl Direction {
         }
     }
 
-    pub fn iterator() -> Iter<'static, Direction> {
+    pub fn iterator() -> slice::Iter<'static, Direction> {
         static DIRECTIONS: [Direction; 4] = [
             Direction::North,
             Direction::East,
@@ -176,10 +176,10 @@ impl Direction {
 
     pub fn advance_by(&self) -> Position {
         match self {
-            Direction::North => Position { x: 0, y: 1 },
-            Direction::East => Position { x: 1, y: 0 },
-            Direction::South => Position { x: 0, y: -1 },
-            Direction::West => Position { x: -1, y: 0 },
+            Direction::North => Position { x: -1, y: 0 },
+            Direction::East => Position { x: 0, y: 1 },
+            Direction::South => Position { x: 1, y: 0 },
+            Direction::West => Position { x: 0, y: -1 },
         }
     }
 }

@@ -94,7 +94,7 @@ fn calculate_edges(
 ) -> i64 {
     let mut perimeter: i64 = 0;
 
-    if (direction == Direction::East) || (direction == Direction::West) {
+    if (direction == Direction::North) || (direction == Direction::South) {
         for x in min_p.x..=max_p.x {
             let mut y = min_p.y;
             //do bottoms then tops
