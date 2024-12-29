@@ -1,7 +1,8 @@
-fn parse(data: &str) -> Vec<String> {
+fn parse(data: &str) -> Vec<&str> {
     data
+        .trim()
         .split("\n")
-        .collect();
+        .collect()
 }
 
 pub fn part1(data: &str) -> i64 {
