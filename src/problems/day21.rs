@@ -278,6 +278,6 @@ mod tests {
 179A
 456A
 379A";
-        assert_eq!(part2(data), 0);
+        assert_eq!(part2(data), 154115708116294);
     }
 }
